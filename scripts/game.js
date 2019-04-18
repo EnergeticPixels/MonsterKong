@@ -10,6 +10,11 @@ var GameState = {
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.physics.arcade.gravity.y = 1000
+
+    this.cursors = this.game.input.keyboard.createCursorKeys();
+
+    this.RUNNING_SPEED = 180;
+    this.JUMPING_SPEED = 550;
   },
 
   //load the game assets before the game starts
@@ -24,11 +29,6 @@ var GameState = {
     this.load.spritesheet('player', '../images/player_spritesheet.png', 28, 30, 5, 1, 1);    
     this.load.spritesheet('fire', '../images/fire_spritesheet.png', 20, 21, 2, 1, 1);
     
-    this.cursors = this.game.input.keyboard.createCursorKeys();
-
-    this.RUNNING_SPEED = 180;
-    this.JUMPING_SPEED = 550;
-
   },
   //executed after everything is loaded
   create: function() {    
