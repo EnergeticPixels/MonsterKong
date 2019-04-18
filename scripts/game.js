@@ -67,6 +67,11 @@ var GameState = {
 
     this.fires.setAll('body.allowGravity', false);
 
+    // gorilla goal
+    this.goal = this.add.sprite(this.levelData.goal.x, this.levelData.goal.y, 'goal');
+    this.game.physics.arcade.enable(this.goal);
+    this.goal.body.allowGravity = false;
+
     //create player
     this.player = this.add.sprite(this.levelData.playerStart.x, this.levelData.playerStart.y, 'player', 3);
     this.player.anchor.setTo(0.5);
@@ -84,6 +89,7 @@ var GameState = {
     this.game.physics.arcade.collide(this.player, this.platforms);
 
     this.game.physics.arcade.overlap(this.player, this.fires, this.killPlayer);
+    this.game.physics.arcade.overlap(this.player, this.goal, this.win);
 
     this.player.body.velocity.x = 0;
     if(this.cursors.left.isDown || this.player.customParams.isMovingLeft) {
@@ -171,6 +177,11 @@ var GameState = {
 
   killPlayer: function(player, fire) {
     console.info('AUCH!');
+    game.state.start('GameState');
+  },
+
+  win: function(player, goal) {
+    alert('You win!');
     game.state.start('GameState');
   }
   
