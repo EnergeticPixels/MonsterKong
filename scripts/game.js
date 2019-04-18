@@ -22,7 +22,13 @@ var GameState = {
     this.load.image('barrel', '../images/barrel.png');    
 
     this.load.spritesheet('player', '../images/player_spritesheet.png', 28, 30, 5, 1, 1);    
-    this.load.spritesheet('fire', '../images/fire_spritesheet.png', 20, 21, 2, 1, 1);      
+    this.load.spritesheet('fire', '../images/fire_spritesheet.png', 20, 21, 2, 1, 1);
+    
+    this.cursors = this.game.input.keyboard.createCursorKeys();
+
+    this.RUNNING_SPEED = 180;
+    this.JUMPING_SPEED = 550;
+
   },
   //executed after everything is loaded
   create: function() {    
@@ -47,6 +53,16 @@ var GameState = {
   update: function() {
     this.game.physics.arcade.collide(this.player, this.ground, this.landed);
     this.game.physics.arcade.collide(this.player, this.platform, this.landed);
+
+    this.player.body.velocity.x = 0;
+    if(this.cursors.left.isDown) {
+      this.player.body.velocity.x = -this.RUNNING_SPEED;
+    }  else if(this.cursors.right.isDown) {
+      this.player.body.velocity.x = this.RUNNING_SPEED;
+    };
+    if(this.cursors.up.isDown && this.player.body.touching.down) {
+      this.player.body.velocity.y = -this.JUMPING_SPEED;
+    }
   },
 
   // the order is important below.  must be stated the same sequence as the collide.
