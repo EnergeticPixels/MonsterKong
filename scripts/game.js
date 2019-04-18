@@ -83,6 +83,11 @@ var GameState = {
 
     this.createOnscreenControls();
 
+    this.barrels = this.add.group();
+    this.barrels.enableBody = true;
+
+    this.barrelCreator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levelData.barrelFreq, this.createBarrel, this);
+
   },
   update: function() {
     this.game.physics.arcade.collide(this.player, this.ground);
@@ -183,6 +188,16 @@ var GameState = {
   win: function(player, goal) {
     alert('You win!');
     game.state.start('GameState');
+  },
+
+  createBarrel: function() {
+    // gets first dead sprite
+    var barrel = this.barrels.getFirstExists(false);
+    if(!barrel) {
+      barrel = this.barrels.create(0, 0, 'barrel');
+    };
+
+    barrel.reset(this.levelData.goal.x, this.levelData.goal.y);
   }
   
 };
