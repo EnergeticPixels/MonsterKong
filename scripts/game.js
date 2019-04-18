@@ -13,6 +13,8 @@ var GameState = {
 
     this.cursors = this.game.input.keyboard.createCursorKeys();
 
+    this.game.world.setBounds(0, 0, 360, 700);
+
     this.RUNNING_SPEED = 180;
     this.JUMPING_SPEED = 550;
   },
@@ -33,14 +35,14 @@ var GameState = {
   //executed after everything is loaded
   create: function() {    
 
-    this.ground = this.add.sprite(0, 500, 'ground');
+    this.ground = this.add.sprite(0, 638, 'ground');
     this.game.physics.arcade.enable(this.ground);
     this.ground.body.allowGravity = false;
     this.ground.body.immovable = true;
 
     var platformData = [
       {"x": 0, "y": 430},
-      //{"x": 45, "y": 560},
+      {"x": 45, "y": 560},
       {"x": 90, "y": 290},
       {"x": 0, "y": 140}
     ];
@@ -55,11 +57,13 @@ var GameState = {
     this.platforms.setAll('body.allowGravity', false);
 
     //create player
-    this.player = this.add.sprite(100, 200, 'player', 3);
+    this.player = this.add.sprite(10, 545, 'player', 3);
     this.player.anchor.setTo(0.5);
     this.player.animations.add('walking', [0, 1, 2, 1], 6, true);
     this.game.physics.arcade.enable(this.player);
     this.player.customParams = {};
+
+    this.game.camera.follow(this.player);
 
     this.createOnscreenControls();
 
@@ -93,6 +97,10 @@ var GameState = {
     this.leftArrow.alpha = 0.5;
     this.rightArrow.alpha = 0.5;
     this.actionButton.alpha = 0.5;
+
+    this.leftArrow.fixedToCamera = true;
+    this.rightArrow.fixedToCamera = true;
+    this.actionButton.fixedToCamera = true;
 
     this.actionButton.events.onInputDown.add(function() {
       this.player.customParams.mustJump = true;
